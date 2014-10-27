@@ -1,0 +1,48 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<section data-ng-controller="SurpluspowerCtrl" data-ng-init="init()">
+  <div class="row">
+    <div class="well">
+      <div data-ng-show="isCheckedSurplusPower">
+        <div class="row">
+          <div class="col-md-6 col-xs-12">
+            <div id="radar-chart" class="clearfix"></div>
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <img data-ng-src="{{profileImageUrl}}"/>
+            <div data-ng-bind-html="surplusText"></div>
+          </div>
+        </div>
+        <div class="row" data-ng-show="authenticated && isMyResult()">
+          <div class="col-xs-12 text-right">
+            <button class="btn btn-warning btn-lg" data-ng-click="checkSurplusPower(user.twitter.id)">
+              <i class="fa fa-fw fa-tachometer fa-2x"></i>
+              다시하기</button>
+          </div>
+          <div class="col-xs-12 text-right">
+            <button class="btn btn-info btn-lg" data-ng-click="shareTwitter()"><i class="fa fa-fx fa-2x fa-twitter"></i> 트위터에 공유하기</button>
+          </div>
+        </div>
+        <div class="row" data-ng-show="authenticated && !isMyResult()">
+          <div class="col-xs-12 text-right">
+            <a class="btn btn-info tn-lg" data-ui-sref="surplusPower check result({twitterId:user.twitter.id})">
+              <i class="fa fa-fw fa-2x fa-dashboard"></i>내 결과 보기
+            </a>
+          </div>
+        </div>
+      </div>
+      <div data-ng-show="!isCheckedSurplusPower">
+        측정된 잉여력이 없습니다.<br/>
+
+        <div data-ng-show="!authenticated">
+          로그인 후 측정 가능합니다.<br/>
+          <a class="btn btn-info btn-lg" href="/auth/twitter" data-ng-click="redirectLogin()"><i class="fa fa-fx fa-2x fa-twitter"></i> 로그인하기</a>
+        </div>
+        <div data-ng-show="authenticated">
+          지금 바로 측정해보세요!<br/>
+          <button class="btn btn-primary btn-lg" data-ng-click="checkSurplusPower(user.twitter.id)"><i class="fa fa-fw fa-tachometer fa-2x"></i>측정하기!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
