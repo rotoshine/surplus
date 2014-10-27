@@ -35,7 +35,6 @@ exports.getSurplusPower = function(req, res){
     query = {'twitter.id': twitterId};
   }
   User.findOne(query, function(err, user){
-    console.log(user);
     if(user && user !== null){
       return res.json({
         name: user.name,
