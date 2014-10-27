@@ -44,18 +44,12 @@ angular.module('surplusApp')
     $scope.loadedUserTwitterId = null;
     $scope.loadSurplusPower = function(twitterId){
       $http
-        .get('/api/surplus-powers/' + twitterId + '/checked')
-        .success(function(checkedResult){
-          if(checkedResult.result){
-            $http
-              .get('/api/surplus-powers/' + twitterId)
-              .success(function(surplusPower){
-                $scope.loadedUserTwitterId = twitterId;
-                $scope.surplusPower = surplusPower;
-                $scope.profileImageUrl = surplusPower.profileImageUrl;
-                $scope.renderingChart();
-              });
-          }
+        .get('/api/surplus-powers/' + twitterId)
+        .success(function(surplusPower){
+          $scope.loadedUserTwitterId = twitterId;
+          $scope.surplusPower = surplusPower;
+          $scope.profileImageUrl = surplusPower.profileImageUrl;
+          $scope.renderingChart();
         });
     };
 
