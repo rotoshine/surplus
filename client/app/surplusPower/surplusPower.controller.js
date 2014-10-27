@@ -10,11 +10,12 @@ angular.module('surplusApp')
     $scope.authenticated = $scope.user && $scope.user.twitter !== undefined;
 
     var RadarChart = window.RadarChart;
-    RadarChart.defaultConfig.maxValue = 100;
-    RadarChart.defaultConfig.w = 300;
-    RadarChart.defaultConfig.h = 300;
+    if(RadarChart !== undefined){
+      RadarChart.defaultConfig.maxValue = 100;
+      RadarChart.defaultConfig.w = 300;
+      RadarChart.defaultConfig.h = 300;
+    }
 
-    console.log(Auth.getCurrentUser());
     $scope.init = function(){
       if($stateParams.twitterId){
         $scope.loadSurplusPower($stateParams.twitterId);
