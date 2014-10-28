@@ -99,22 +99,10 @@ angular.module('surplusApp')
     };
 
     $scope.shareTwitter = function(){
-      var twitterId = $stateParams.twitterId;
-      if(twitterId === undefined){
-        twitterId = $scope.user.twitter.id;
-      }
-
-      var params = {
-        text: $scope.generateSurplusPlainText(),
-        url: 'http://surplus.winterwolf.me/surplusPower/' + twitterId,
-        hashtags: '잉여력_측정'
-      };
-
-      var querystringArray = [];
-      for(var key in params){
-        querystringArray.push(key + '=' + params[key]);
-      }
-
-      location.href = 'https://twitter.com/intent/tweet?' + querystringArray.join('&');
+      $http
+        .post('/api/surplus-powers/share')
+        .success(function(){
+          alert('공유되었습니다.');
+        });
     };
   });

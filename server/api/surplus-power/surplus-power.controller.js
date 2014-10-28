@@ -2,8 +2,9 @@
 
 var mongoose = require('mongoose'),
   _ = require('lodash'),
-  User = require('../user/user.model');
-
+  User = require('../user/user.model'),
+  Twitter = require('ntwitter'),
+  request = require('request');
 var surplusPowers = [
   '노가다', '개드립', '땡땡이', '땡깡',
   '똘끼', '잔머리', '욕', '독신력', '트잉여',
@@ -15,6 +16,14 @@ function getRandomNumber(start, end){
   return Math.floor(Math.random() * end) + start;
 }
 
+var localEnvConfig = require('../../config/local.env');
+var twit = new Twitter({
+  consumer_key: localEnvConfig.TWITTER_ID,
+  consumer_secret: localEnvConfig.TWITTER_SECRET,
+  access_token_key: localEnvConfig.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: localEnvConfig.TWITTER_ACCESS_TOKEN_SECRET
+});
+
 exports.isCheckedSurplusPower = function(req, res){
   var twitterId = parseInt(req.params.twitterId, 10);
   User.findOne({'twitter.id': twitterId}, function(err, user){
@@ -22,6 +31,34 @@ exports.isCheckedSurplusPower = function(req, res){
       result: user !== null && user.surplusPower && Object.keys(user.surplusPower).length > 0
     });
   });
+};
+
+exports.shareTwitter = function(req, res){
+  var user = req.user;
+  var shareText = user.name + '님의 잉여력은';
+
+  var surplusPower = user.surplusPower;
+
+  for(var key in surplusPower){
+    shareText = shareText + key + ': ' + surplusPower[key] + ' ';
+  }
+  shareText = shareText + '입니다. #잉여력_측정 ';
+  shareText = shareText + 'http://surplus.winterwolf.me/surplusPower/' + user.twitter.id;
+
+  twit
+    .verifyCredentials(function(){})
+    .updateStatus(shareText, function(err, data){
+      res.send(data);
+    });
+};
+
+exports.getFollowers = function(req, res){
+  twit
+    .verifyCredentials(function(){})
+    .updateStatus('트위터 자동업데이트 테스트 ' + new Date(), function(err, data){
+      console.log(arguments);
+      res.send(data);
+    });
 };
 
 exports.getSurplusPower = function(req, res){
