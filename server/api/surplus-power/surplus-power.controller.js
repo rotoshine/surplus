@@ -48,7 +48,15 @@ exports.shareTwitter = function(req, res){
   twit
     .verifyCredentials(function(){})
     .updateStatus(shareText, function(err, data){
-      res.send(data);
+      if(err){
+        console.log(err);
+        console.log(data);
+        res.status(500).json({
+          msg: '트위터 공유 중 에러가 발생했습니다. 개발자에게 문의하세요.'
+        });
+      }else{
+        res.send(data);
+      }
     });
 };
 
