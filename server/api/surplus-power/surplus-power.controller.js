@@ -35,7 +35,7 @@ exports.isCheckedSurplusPower = function(req, res){
 
 exports.shareTwitter = function(req, res){
   var user = req.user;
-  var shareText = user.name + '님의 잉여력은';
+  var shareText = user.name + '님의 잉여력은 ';
 
   var surplusPower = user.surplusPower;
 
