@@ -18,8 +18,6 @@ module.exports = {
     uri:    process.env.MONGOLAB_URI ||
             process.env.MONGOHQ_URL ||
             process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://localhost/surplus'
-  },
-  TWITTER_ID: 'avERGzZPW1Ll2frJRKxuA',
-  TWITTER_SECRET: 'k5hwgvjqmlZoNRThlz1FZbkHDdSnQulIa0YjADo'
+            'mongodb://localhost/mean-prod'
+  }
 };
